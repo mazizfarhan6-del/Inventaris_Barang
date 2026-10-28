@@ -1,0 +1,12 @@
+/*
+ * ============================================================================
+ * CATATAN DEPRECATION:
+ * Ketergantungan pada file CSS eksternal ini telah dihapus.
+ * Seluruh styling CSS kini disatukan dan ditanam (embedded) langsung
+ * ke dalam tag <style> di bagian <head> file:
+ * - layouts/header.php (Halaman internal aplikasi)
+ * - auth/login.php (Halaman otentikasi login)
+ * 
+ * Hal ini memudahkan pengeditan dan pemeliharaan styling terpusat dari satu tempat.
+ * ============================================================================
+ */

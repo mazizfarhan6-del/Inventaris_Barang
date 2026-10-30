@@ -498,14 +498,11 @@ if (!isset($page)) { $page = ''; }
             <a href="<?php echo $base_url; ?>dashboard.php" class="menu-item <?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
                 Dashboard
             </a>
-            <a href="<?php echo $base_url; ?>barang/tambah.php" class="menu-item <?php echo ($page == 'tambah_barang') ? 'active' : ''; ?>">
-                Tambah Barang
+            <a href="<?php echo $base_url; ?>barang/index.php" class="menu-item <?php echo ($page == 'barang' || $page == 'tambah_barang') ? 'active' : ''; ?>">
+                Barang
             </a>
-            <a href="<?php echo $base_url; ?>kategori/index.php" class="menu-item <?php echo ($page == 'kategori') ? 'active' : ''; ?>">
-                Kelola Kategori
-            </a>
-            <a href="<?php echo $base_url; ?>kategori/tambah.php" class="menu-item <?php echo ($page == 'tambah_kategori') ? 'active' : ''; ?>">
-                Tambah Kategori
+            <a href="<?php echo $base_url; ?>kategori/index.php" class="menu-item <?php echo ($page == 'kategori' || $page == 'tambah_kategori') ? 'active' : ''; ?>">
+                Kategori
             </a>
             <a href="<?php echo $base_url; ?>auth/tambah_user.php" class="menu-item <?php echo ($page == 'tambah_user') ? 'active' : ''; ?>">
                 Tambah User
@@ -528,10 +525,12 @@ if (!isset($page)) { $page = ''; }
                 <?php 
                 if ($page == 'dashboard') {
                     echo 'Dashboard';
+                } elseif ($page == 'barang') {
+                    echo 'Barang';
                 } elseif ($page == 'tambah_barang') {
                     echo 'Tambah Barang';
                 } elseif ($page == 'kategori') {
-                    echo 'Kelola Kategori';
+                    echo 'Kategori';
                 } elseif ($page == 'tambah_kategori') {
                     echo 'Tambah Kategori';
                 } elseif ($page == 'tambah_user') {

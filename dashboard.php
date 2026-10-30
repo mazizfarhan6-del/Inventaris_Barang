@@ -7,72 +7,51 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
     exit;
 }
 
-$query_barang = mysqli_query($koneksi, "SELECT barang.*, kategori.nama_kategori 
-                                        FROM barang 
-                                        LEFT JOIN kategori ON barang.id_kategori = kategori.id_kategori 
-                                        ORDER BY barang.id_barang DESC");
+// Mengambil jumlah data barang
+$query_barang = mysqli_query($koneksi, "SELECT * FROM barang");
+$total_barang = mysqli_num_rows($query_barang);
+
+// Mengambil jumlah data kategori
+$query_kategori = mysqli_query($koneksi, "SELECT * FROM kategori");
+$total_kategori = mysqli_num_rows($query_kategori);
 
 $page = 'dashboard';
 include 'layouts/header.php';
 ?>
 
-<div class="container-box">
-    <div class="box-header">
-        <h2 class="box-title">Daftar Barang</h2>
-        <a href="barang/tambah.php" class="btn-primary-sm">Tambah Barang</a>
+<div style="margin-bottom: 28px;">
+    <h1 style="font-size: 24px; font-weight: 600; color: #ffffff; margin-bottom: 6px;">Selamat Datang di Sistem Inventaris!</h1>
+    <p style="color: var(--text-muted); font-size: 13.5px;">Ringkasan dan statistik inventaris barang serta kategori Anda.</p>
+</div>
+
+<!-- 2 Buah Card Informasi Sejajar Menyamping Menggunakan Flexbox / Grid -->
+<div style="display: flex; gap: 20px; flex-wrap: wrap;">
+    <!-- Card Total Barang -->
+    <div class="container-box" style="flex: 1; min-width: 240px; margin-bottom: 0;">
+        <div style="font-size: 13px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+            Total Barang
+        </div>
+        <div style="font-size: 36px; font-weight: 700; color: #ffffff; line-height: 1.2;">
+            <?php echo $total_barang; ?>
+        </div>
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; color: var(--text-dim);">Data tersimpan</span>
+            <a href="barang/index.php" style="color: #f87171; font-size: 12px; text-decoration: none; font-weight: 500;">Kelola Barang &rarr;</a>
+        </div>
     </div>
 
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 50px;" class="text-center">No</th>
-                    <th>Nama Barang</th>
-                    <th>Kategori</th>
-                    <th class="text-right">Harga</th>
-                    <th class="text-center" style="width: 90px;">Stok</th>
-                    <th class="text-center" style="width: 150px;">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $no = 1;
-                if ($query_barang && mysqli_num_rows($query_barang) > 0) {
-                    while ($b = mysqli_fetch_assoc($query_barang)) { 
-                ?>
-                <tr>
-                    <td class="text-center"><?php echo $no++; ?></td>
-                    <td><strong><?php echo htmlspecialchars($b['nama_barang']); ?></strong></td>
-                    <td>
-                        <span class="badge-category">
-                            <?php echo $b['nama_kategori'] ? htmlspecialchars($b['nama_kategori']) : '-'; ?>
-                        </span>
-                    </td>
-                    <td class="text-right">Rp <?php echo number_format($b['harga'], 0, ',', '.'); ?></td>
-                    <td class="text-center">
-                        <span class="badge-stock <?php echo ($b['stok'] <= 0) ? 'badge-stock-empty' : ''; ?>">
-                            <?php echo (int)$b['stok']; ?>
-                        </span>
-                    </td>
-                    <td class="text-center">
-                        <div class="action-group">
-                            <a href="barang/edit.php?id=<?php echo $b['id_barang']; ?>" class="btn-edit">Edit</a>
-                            <a href="barang/hapus.php?id=<?php echo $b['id_barang']; ?>" class="btn-hapus" onclick="return confirm('Yakin ingin menghapus barang ini?')">Hapus</a>
-                        </div>
-                    </td>
-                </tr>
-                <?php 
-                    } 
-                } else {
-                ?>
-                <tr>
-                    <td colspan="6" class="text-center" style="padding: 30px; color: var(--text-dim);">
-                        Belum ada data barang.
-                    </td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+    <!-- Card Total Kategori -->
+    <div class="container-box" style="flex: 1; min-width: 240px; margin-bottom: 0;">
+        <div style="font-size: 13px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+            Total Kategori
+        </div>
+        <div style="font-size: 36px; font-weight: 700; color: #ffffff; line-height: 1.2;">
+            <?php echo $total_kategori; ?>
+        </div>
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; color: var(--text-dim);">Kategori aktif</span>
+            <a href="kategori/index.php" style="color: #f87171; font-size: 12px; text-decoration: none; font-weight: 500;">Kelola Kategori &rarr;</a>
+        </div>
     </div>
 </div>
 

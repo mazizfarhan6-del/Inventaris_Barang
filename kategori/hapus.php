@@ -1,28 +1,43 @@
+
 <?php
 session_start();
 include '../config/koneksi.php';
 
-if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
-    header("location: ../auth/login.php");
+// Memastikan pengguna sudah login
+if (!isset($_SESSION['status']) ||
+    $_SESSION['status'] != "login") {
+    header("Location: ../auth/login.php");
     exit;
 }
 
-if (isset($_GET['id'])) {
-    $id_kategori = $_GET['id'];
+// Validasi ID kategori
+$id_kategori = filter_input(
+    INPUT_GET,
+    'id',
+    FILTER_VALIDATE_INT
+);
 
-    // Set id_kategori barang terkait menjadi NULL agar data barang tetap aman
-    mysqli_query($koneksi, "UPDATE barang SET id_kategori = NULL WHERE id_kategori = '$id_kategori'");
+if (!$id_kategori || $id_kategori < 1) {
+    header("Location: index.php");
+    exit;
+}
 
-    $hapus = mysqli_query($koneksi, "DELETE FROM kategori WHERE id_kategori = '$id_kategori'");
+// Menyiapkan query penghapusan
+$stmt = mysqli_prepare(
+    $koneksi,
+    "DELETE FROM kategori WHERE id_kategori = ?"
+);
 
-    if ($hapus) {
-        header("location: index.php");
-        exit;
-    } else {
-        echo "Gagal menghapus kategori: " . mysqli_error($koneksi);
-    }
+mysqli_stmt_bind_param($stmt, "i", $id_kategori);
+
+// Menjalankan query
+if (mysqli_stmt_execute($stmt)) {
+    header("Location: index.php");
+    exit;
 } else {
-    header("location: index.php");
-    exit;
+    error_log(mysqli_stmt_error($stmt));
+    echo "Gagal menghapus kategori.";
 }
+
+mysqli_stmt_close($stmt);
 ?>

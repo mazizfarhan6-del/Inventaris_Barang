@@ -38,14 +38,14 @@ if (isset($_POST['update'])) {
                                       WHERE id_barang='$id_barang'");
 
     if ($update) {
-        header("location: ../dashboard.php");
+        header("location: index.php");
         exit;
     } else {
         $error = "Gagal mengupdate barang: " . mysqli_error($koneksi);
     }
 }
 
-$page = 'dashboard';
+$page = 'barang';
 include '../layouts/header.php';
 ?>
 
@@ -88,7 +88,7 @@ include '../layouts/header.php';
         </div>
 
         <button type="submit" name="update" class="btn-submit" style="margin-top: 8px;">Perbarui Barang</button>
-        <a href="../dashboard.php" class="btn-cancel">Batal</a>
+        <a href="index.php" class="btn-cancel">Batal</a>
     </form>
 </div>
 

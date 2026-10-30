@@ -13,7 +13,7 @@ if (isset($_GET['id'])) {
     $hapus = mysqli_query($koneksi, "DELETE FROM barang WHERE id_barang='$id_barang'");
 
     if ($hapus) {
-        header("location: ../dashboard.php");
+        header("location: index.php");
     } else {
         echo "Gagal menghapus data: " . mysqli_error($koneksi);
     }

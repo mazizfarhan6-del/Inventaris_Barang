@@ -19,7 +19,7 @@ if (isset($_POST['simpan'])) {
                                       VALUES ('$id_kategori', '$nama_barang', '$harga', '$stok')");
 
     if ($simpan) {
-        header("location: ../dashboard.php");
+        header("location: index.php");
         exit;
     } else {
         $error = "Gagal menambah barang: " . mysqli_error($koneksi);
@@ -68,7 +68,7 @@ include '../layouts/header.php';
         </div>
 
         <button type="submit" name="simpan" class="btn-submit" style="margin-top: 8px;">Simpan Barang</button>
-        <a href="../dashboard.php" class="btn-cancel">Batal</a>
+        <a href="index.php" class="btn-cancel">Batal</a>
     </form>
 </div>
 
